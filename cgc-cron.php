@@ -12,6 +12,7 @@ class CGC_Cron {
 
 
 		add_action( 'wp', array( $this, 'remove_cron_jobs' ), 20 );
+		add_action( 'rcp_expired_users_check', array( $this, 'cron_test' ) );
 	
 	}
 
@@ -25,6 +26,10 @@ class CGC_Cron {
 
 		wp_clear_scheduled_hook( 'rcp_expired_users_check' );
 		wp_clear_scheduled_hook( 'rcp_send_expiring_soon_notice' );
+	}
+
+	public function cron_test() {
+		wp_mail( 'mordauk@gmail.com', 'Cron Test', 'This is a test of the cron' );
 	}
 
 }
