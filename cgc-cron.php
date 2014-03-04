@@ -12,7 +12,8 @@ class CGC_Cron {
 
 
 		add_action( 'wp', array( $this, 'remove_cron_jobs' ), 20 );
-		add_action( 'rcp_expired_users_check', array( $this, 'cron_test' ) );
+		add_action( 'rcp_expired_users_check', array( $this, 'expired_cron_notice' ) );
+		add_action( 'rcp_send_expiring_soon_notice', array( $this, 'expiring_soon_cron_notice' ) );
 	
 	}
 
@@ -28,8 +29,12 @@ class CGC_Cron {
 		wp_clear_scheduled_hook( 'rcp_send_expiring_soon_notice' );
 	}
 
-	public function cron_test() {
-		wp_mail( 'mordauk@gmail.com', 'Cron Test', 'This is a test of the cron' );
+	public function expired_cron_notice() {
+		wp_mail( 'mordauk@gmail.com', 'CGC RCP Expired Check Ran', 'The cron job to check for expired users on CGCookie has just run. Time ' . date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
+	}
+
+	public function expiring_soon_cron_notice() {
+		wp_mail( 'mordauk@gmail.com', 'CGC RCP Expiring Soon Check Ran', 'The cron job to check for expiring soon users on CGCookie has just run. Time ' . date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
 	}
 
 }
